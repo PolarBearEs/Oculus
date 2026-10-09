@@ -71,6 +71,26 @@ public class StandardMacros {
 			define(standardDefines, irisDefine);
 		}
 
+		if (net.minecraftforge.fml.loading.FMLLoader.getLoadingModList().getModFileById("distanthorizons") != null) {
+			define(standardDefines, "DISTANT_HORIZONS");
+			define(standardDefines, "DH_BLOCK_UNKNOWN", "0");
+			define(standardDefines, "DH_BLOCK_LEAVES", "1");
+			define(standardDefines, "DH_BLOCK_STONE", "2");
+			define(standardDefines, "DH_BLOCK_WOOD", "3");
+			define(standardDefines, "DH_BLOCK_METAL", "4");
+			define(standardDefines, "DH_BLOCK_DIRT", "5");
+			define(standardDefines, "DH_BLOCK_LAVA", "6");
+			define(standardDefines, "DH_BLOCK_DEEPSLATE", "7");
+			define(standardDefines, "DH_BLOCK_SNOW", "8");
+			define(standardDefines, "DH_BLOCK_SAND", "9");
+			define(standardDefines, "DH_BLOCK_TERRACOTTA", "10");
+			define(standardDefines, "DH_BLOCK_NETHER_STONE", "11");
+			define(standardDefines, "DH_BLOCK_WATER", "12");
+			define(standardDefines, "DH_BLOCK_GRASS", "13");
+			define(standardDefines, "DH_BLOCK_AIR", "14");
+			define(standardDefines, "DH_BLOCK_ILLUMINATED", "15");
+		}
+
 		return ImmutableList.copyOf(standardDefines);
 	}
 

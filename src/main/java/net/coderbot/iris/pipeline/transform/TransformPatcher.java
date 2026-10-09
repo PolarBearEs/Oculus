@@ -1,5 +1,6 @@
 package net.coderbot.iris.pipeline.transform;
 
+import net.coderbot.iris.pipeline.transform.transformer.DHTerrainTransformer;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -213,6 +214,11 @@ public class TransformPatcher {
 					Profile profile = versionStatement.profile;
 					Version version = versionStatement.version;
 					switch (parameters.patch) {
+						case DH:
+							if (version.number < 330) versionStatement.version = Version.GLSL33;
+							versionStatement.profile = Profile.CORE;
+							DHTerrainTransformer.transform(transformer, tree, root, parameters);
+							break;
 						case ATTRIBUTES:
 							AttributeTransformer.transform(transformer, tree, root, (AttributeParameters) parameters);
 							break;
@@ -282,6 +288,10 @@ public class TransformPatcher {
 			CompatibilityTransformer.transformGrouped(transformer, trees, parameters);
 		});
 		transformer.setTokenFilter(parseTokenFilter);
+	}
+
+	public static Map<PatchShaderType, String> patchDH(String vertex, String geometry, String fragment) {
+		return transform(vertex, geometry, fragment, new net.coderbot.iris.pipeline.transform.parameter.DHParameters());
 	}
 
 	private static final Pattern versionPattern = Pattern.compile("^.*#version\\s+(\\d+)", Pattern.DOTALL);

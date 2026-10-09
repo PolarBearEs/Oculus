@@ -1,5 +1,6 @@
 package net.coderbot.iris.samplers;
 
+import net.coderbot.iris.compat.dh.DHCompatBridge;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
@@ -208,6 +209,8 @@ public class IrisSamplers {
 				"depthtex1");
 		samplers.addDynamicSampler(renderTargets.getDepthTextureNoHand()::getTextureId,
 				"depthtex2");
+		samplers.addDynamicSampler(DHCompatBridge::getDepthTexture, "dhDepthTex");
+		samplers.addDynamicSampler(DHCompatBridge::getDepthTextureNoTranslucents, "dhDepthTex1");
 	}
 
 	public static void addCustomTextures(SamplerHolder samplers, Object2ObjectMap<String, TextureAccess> irisCustomTextures) {

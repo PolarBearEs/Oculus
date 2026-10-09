@@ -21,6 +21,8 @@ public class ProgramSet implements ProgramSetInterface {
 	private final ProgramSource shadow;
 	private final ComputeSource[] shadowCompute;
 
+	private final ProgramSource dhTerrain;
+	private final ProgramSource dhWater;
 	private final ProgramSource[] shadowcomp;
 	private final ComputeSource[][] shadowCompCompute;
 	private final ProgramSource[] begin;
@@ -82,6 +84,8 @@ public class ProgramSet implements ProgramSetInterface {
 		//
 		// - https://github.com/IrisShaders/Iris/issues/483
 		// - https://github.com/IrisShaders/Iris/issues/987
+		this.dhTerrain = readProgramSource(directory, sourceProvider, "dh_terrain", this, shaderProperties);
+		this.dhWater = readProgramSource(directory, sourceProvider, "dh_water", this, shaderProperties);
 		this.shadow = readProgramSource(directory, sourceProvider, "shadow", this, shaderProperties,
 				BlendModeOverride.OFF);
 		this.shadowCompute = readComputeArray(directory, sourceProvider, "shadow");
@@ -223,6 +227,8 @@ public class ProgramSet implements ProgramSetInterface {
 		List<ComputeSource> computes = new ArrayList<>();
 
 		programs.add(shadow);
+		programs.add(dhTerrain);
+		programs.add(dhWater);
 		programs.addAll(Arrays.asList(shadowcomp));
 		programs.addAll(Arrays.asList(begin));
 		programs.addAll(Arrays.asList(prepare));
@@ -302,6 +308,9 @@ public class ProgramSet implements ProgramSetInterface {
 		packDirectives.getRenderTargetDirectives().getRenderTargetSettings().forEach((index, settings) ->
 			Iris.logger.debug("Render target settings for colortex" + index + ": " + settings));
 	}
+
+	public Optional<ProgramSource> getDhTerrain() { return dhTerrain.requireValid(); }
+	public Optional<ProgramSource> getDhWater() { return dhWater.requireValid(); }
 
 	public Optional<ProgramSource> getShadow() {
 		return shadow.requireValid();

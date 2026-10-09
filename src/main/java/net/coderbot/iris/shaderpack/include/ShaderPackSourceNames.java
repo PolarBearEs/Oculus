@@ -69,6 +69,8 @@ public class ShaderPackSourceNames {
 			}
 		}
 
+		addStarts(potentialFileNames, "dh_terrain");
+		addStarts(potentialFileNames, "dh_water");
 		return potentialFileNames.build();
 	}
 

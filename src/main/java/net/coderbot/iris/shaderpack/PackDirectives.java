@@ -133,6 +133,8 @@ public class PackDirectives {
 		return centerDepthHalfLife;
 	}
 
+	public CloudSetting getDHCloudSetting() { return getCloudSetting(); }
+
 	public CloudSetting getCloudSetting() {
 		return cloudSetting;
 	}

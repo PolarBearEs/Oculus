@@ -15,6 +15,9 @@ public class ProgramCreator {
 
 	public static int create(String name, GlShader... shaders) {
 		int program = GlStateManager.glCreateProgram();
+		GlStateManager._glBindAttribLocation(program, 0, "vPosition");
+		GlStateManager._glBindAttribLocation(program, 1, "iris_color");
+		GlStateManager._glBindAttribLocation(program, 2, "irisExtra");
 
 		// TODO: This is *really* hardcoded, we need to refactor this to support external calls
 		// to glBindAttribLocation

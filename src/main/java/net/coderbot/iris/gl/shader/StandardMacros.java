@@ -34,6 +34,9 @@ public class StandardMacros {
 	}
 
 	private static void define(List<StringPair> defines, String key, String value) {
+		if (key.equals("NEXT_EUPHORIA_PATCHES_VERSION") || key.equals("CURRENT_EUPHORIA_PATCHES_VERSION")) {
+			value = EuphoriaVersionGlyphs.normalize(value);
+		}
 		defines.add(new StringPair(key, value));
 	}
 

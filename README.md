@@ -1,3 +1,11 @@
+# Oculus for Stacia 2 Expert: Distant Horizons 3 compatibility
+
+Local Minecraft 1.19.2 / Forge compatibility port of Oculus for Distant Horizons 3.3.3 and Complementary Unbound 5.8.1 with Euphoria Patches 1.9.3. This is not an official Oculus release.
+
+See [the compatibility and build notes](README-STACIA-DH.md) for tested versions, limitations, source credits, and Java 17 build instructions. Older Distant Horizons versions have not been tested.
+
+The original upstream README follows.
+
 <p align="center">
   <img src="banner.png">
 </p>

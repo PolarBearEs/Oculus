@@ -25,18 +25,27 @@ public class GlFramebuffer extends GlResource {
 	}
 
 	public void addDepthAttachment(int texture) {
+		addDepthAttachmentInternal(texture);
+		this.hasDepthAttachment = true;
+	}
+
+	public void addExternalDepthAttachment(int texture) {
+		addDepthAttachmentInternal(texture);
+	}
+
+	private void addDepthAttachmentInternal(int texture) {
 		int internalFormat = TextureInfoCache.INSTANCE.getInfo(texture).getInternalFormat();
 		DepthBufferFormat depthBufferFormat = DepthBufferFormat.fromGlEnumOrDefault(internalFormat);
 
 		int fb = getGlId();
 
 		if (depthBufferFormat.isCombinedStencil()) {
+			IrisRenderSystem.framebufferTexture2D(fb, GL30C.GL_FRAMEBUFFER, GL30C.GL_DEPTH_ATTACHMENT, GL30C.GL_TEXTURE_2D, 0, 0);
 			IrisRenderSystem.framebufferTexture2D(fb, GL30C.GL_FRAMEBUFFER, GL30C.GL_DEPTH_STENCIL_ATTACHMENT, GL30C.GL_TEXTURE_2D, texture, 0);
 		} else {
+			IrisRenderSystem.framebufferTexture2D(fb, GL30C.GL_FRAMEBUFFER, GL30C.GL_DEPTH_STENCIL_ATTACHMENT, GL30C.GL_TEXTURE_2D, 0, 0);
 			IrisRenderSystem.framebufferTexture2D(fb, GL30C.GL_FRAMEBUFFER, GL30C.GL_DEPTH_ATTACHMENT, GL30C.GL_TEXTURE_2D, texture, 0);
 		}
-
-		this.hasDepthAttachment = true;
 	}
 
 	public void addColorAttachment(int index, int texture) {

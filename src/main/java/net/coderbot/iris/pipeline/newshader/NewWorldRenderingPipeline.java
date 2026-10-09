@@ -1,5 +1,6 @@
 package net.coderbot.iris.pipeline.newshader;
 
+import net.coderbot.iris.compat.dh.DHCompatBridge;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.pipeline.RenderTarget;
@@ -146,6 +147,7 @@ public class NewWorldRenderingPipeline implements WorldRenderingPipeline, CoreWo
 	private final FrameUpdateNotifier updateNotifier;
 	private final CenterDepthSampler centerDepthSampler;
 	private final SodiumTerrainPipeline sodiumTerrainPipeline;
+	private final DHCompatBridge dhCompat;
 	private final ColorSpaceConverter colorSpaceConverter;
 
 	private final ImmutableSet<Integer> flippedBeforeShadow;
@@ -485,6 +487,7 @@ public class NewWorldRenderingPipeline implements WorldRenderingPipeline, CoreWo
 		this.sodiumTerrainPipeline = new SodiumTerrainPipeline(this, programSet, createTerrainSamplers,
 			shadowRenderTargets == null ? null : createShadowTerrainSamplers, createTerrainImages, createShadowTerrainImages, renderTargets, flippedAfterPrepare, flippedAfterTranslucent,
 			shadowRenderTargets != null ? shadowRenderTargets.createShadowFramebuffer(ImmutableSet.of(), programSet.getShadow().filter(source -> !source.getDirectives().hasUnknownDrawBuffers()).map(source -> source.getDirectives().getDrawBuffers()).orElse(new int[]{0, 1})) : null, customUniforms);
+		this.dhCompat = DHCompatBridge.create(this, programSet);
 
 
 		this.setup = createSetupComputes(programSet.getSetup(), programSet, TextureStage.SETUP);
@@ -1169,8 +1172,12 @@ public class NewWorldRenderingPipeline implements WorldRenderingPipeline, CoreWo
 		});
 	}
 
-	@Override
+	public GlFramebuffer createDHFramebuffer(ProgramSource source, boolean translucent) {
+        return renderTargets.createDHFramebuffer(translucent ? flippedAfterTranslucent : flippedAfterPrepare, source.getDirectives().getDrawBuffers());
+    }
+
 	public void destroy() {
+		dhCompat.destroy();
 		destroyed = true;
 
 

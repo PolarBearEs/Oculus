@@ -1,5 +1,6 @@
 package net.coderbot.iris.uniforms;
 
+import net.coderbot.iris.compat.dh.DHCompatBridge;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.coderbot.iris.JomlConversions;
@@ -59,6 +60,12 @@ public final class CommonUniforms {
 
 	// Needs to use a LocationalUniformHolder as we need it for the common uniforms
 	public static void addDynamicUniforms(DynamicUniformHolder uniforms, FogMode fogMode) {
+		uniforms.uniform1i(PER_FRAME, "dhRenderDistance", DHCompatBridge::getRenderDistance)
+            .uniformMatrixFromArray(PER_FRAME, "dhProjection", DHCompatBridge::getProjection)
+            .uniformMatrixFromArray(PER_FRAME, "dhProjectionInverse", DHCompatBridge::getProjectionInverse)
+            .uniformMatrixFromArray(PER_FRAME, "dhPreviousProjection", DHCompatBridge::getPreviousProjection)
+            .uniform1f(PER_FRAME, "dhNearPlane", (net.coderbot.iris.gl.uniform.FloatSupplier) DHCompatBridge::getNearPlane)
+            .uniform1f(PER_FRAME, "dhFarPlane", (net.coderbot.iris.gl.uniform.FloatSupplier) DHCompatBridge::getFarPlane);
 		ExternallyManagedUniforms.addExternallyManagedUniforms117(uniforms);
 		FogUniforms.addFogUniforms(uniforms, fogMode);
 		IrisInternalUniforms.addFogUniforms(uniforms, fogMode);
